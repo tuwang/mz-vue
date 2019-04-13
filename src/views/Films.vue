@@ -1,7 +1,7 @@
 <template>
   <div class="film-list">
     <Bananer :banners="bannerList"></Bananer>
-    <div class="tabs-bar-wrapper">
+    <div class="tabs-bar-wrapper" :class="{ fixed: isFixedTop }">
       <div class="tabs-bar">
         <ul class="tabs-nav">
           <li style="width: 50%;"
@@ -29,6 +29,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      isFixedTop: false,
       bannerList: [],
       filmTypes: [
         { id:'nowPlaying', name:'正在热映', href: '/films/nowPlaying' },
@@ -80,11 +81,43 @@ export default {
     changeType (item) {
       this.curType = item.id
       this.$router.replace(item.href)
+    },
+
+    onScoll() {
+      console.log(111);
+       let scrollTop = document.documentElement.scrollTop;
+       if(scrollTop >= 210){
+         this.isFixedTop = true;
+       } else {
+         this.isFixedTop = false;
+       }
     }
   },
 
   created() {
     this.getBannerList();
+  },
+  /* mounted() {
+    let that = this;
+    window.addEventListener('scroll', function() {
+       console.log(111);
+       let scrollTop = document.documentElement.scrollTop;
+       if(scrollTop >= 210){
+         that.isFixedTop = true;
+       } else {
+         that.isFixedTop = false;
+       }
+    })
+  } */
+
+  // !!!!  请注意移除  滚动事件  监听
+
+  activated () {
+    window.addEventListener('scroll', this.onScoll)
+  },
+
+  deactivated () {
+    window.removeEventListener('scroll', this.onScoll)
   }
 }
 </script>
@@ -229,6 +262,11 @@ export default {
   overflow-x: hidden;
   background: #fff;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
+
+  &.fixed {
+    position: fixed;
+    top: 0;
+  }
 
   .tabs-bar {
     .border-1-bottom;

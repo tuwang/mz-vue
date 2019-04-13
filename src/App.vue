@@ -1,29 +1,15 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
 
-    <NavBar :tabs="tabs"></NavBar>
-  </div>
+  <keep-alive>
+    <router-view></router-view>
+  </keep-alive>
+  
 </template>
 
 <script>
-import NavBar from './components/NavBar.vue';
-export default {
-  name: "app",
 
-  data () {
-    return {
-      tabs: [
-        { name: '电影', href: '/films', icon:'icon-films' },
-        { name: '影院' , href: '/cinemas', icon:'icon-cinemas' },
-        { name: '特惠', href: '/sales', icon:'icon-sales' },
-        { name: '我的' , href: '/center', icon:'icon-center' },
-      ]
-    }
-  },
-  components: {
-    NavBar
-  }
+export default {
+  
 };
 </script>
 
